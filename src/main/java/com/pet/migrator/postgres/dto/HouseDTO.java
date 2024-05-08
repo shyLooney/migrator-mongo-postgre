@@ -5,116 +5,129 @@ import com.pet.migrator.postgres.model.*;
 import com.pet.migrator.postgres.repository.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Data
-@Component
+@Service
 @AllArgsConstructor
+@Slf4j
 public class HouseDTO {
     private CountryRepository countryRepository;
     private RegionRepository regionRepository;
-    private CityRepository cityRepository;
+    private LocalityRepository localityRepository;
     private SettlementRepository settlementRepository;
     private StreetRepository streetRepository;
     private HouseRepository houseRepository;
     private ResultRepository resultRepository;
     private EntranceRepository entranceRepository;
 
-    public void save(HouseDoc houseDoc) {
-        HouseObjectFactory houseObjectFactory = new DefaultHouseObjectFactory(houseDoc);
-        List<Long> list = new ArrayList<>();
+    @Transactional
+    public Mono<Void> save(HouseDoc houseDoc) {
+        HouseObjectFactory factory = new DefaultHouseObjectFactory(houseDoc);
 
-        Country country = houseObjectFactory.createCountry();
-        Region region = houseObjectFactory.createRegion();
-        City city = houseObjectFactory.createCity();
-        Settlement settlement = houseObjectFactory.createSettlement();
-        Street street = houseObjectFactory.createStreet();
-        House house = houseObjectFactory.createHouse();
-        Result result = houseObjectFactory.createResult();
+        Country countryObj = factory.createCountry();
+        log.info(houseDoc.toString());
+        log.info(countryObj.toString());
 
-        countryRepository.save(country)
-                .flatMap(country1 -> {
-                    list.add(country1.getId());
 
-                    if (region == null) {
-                        Region temp = new Region();
-                        temp.setId(1L);
-                        return Mono.just(temp);
-                    }
-                    else
-                        return regionRepository.save(region);
+        return countryRepository
+                .findByCountryIsoCode(countryObj.getCountryIsoCode())
+                .switchIfEmpty(countryRepository.save(countryObj))
+                .flatMap(country -> {
+                    Region regionObj = factory.createRegion(country.getId());
+                    log.info(regionObj.toString());
+
+                    return regionRepository.findByRegionFiasId(regionObj.getRegionFiasId())
+                            .switchIfEmpty(regionRepository.save(regionObj));
                 })
-                .flatMap(region1 -> {
-                    list.add(region1.getId());
+                .flatMap(region -> {
+                    Locality localityObj = factory.createLocality(region.getId());
 
-                    if (city == null) {
-                        City temp = new City();
-                        temp.setId(1L);
-                        return Mono.just(temp);
-                    }
-                    else
-                        return cityRepository.save(city);
-                })
-                .flatMap(city1 -> {
-                    list.add(city1.getId());
+                    if (localityObj != null)
+                        log.info(localityObj.toString());
+                    else {
+                        Locality localityTemp = new Locality();
+                        localityTemp.setRegionId(region.getId());
 
-                    if (settlement == null) {
-                        Settlement temp = new Settlement();
-                        temp.setId(1L);
-                        return Mono.just(temp);
-                    }
-                    else
-                        return settlementRepository.save(settlement);
-                })
-                .flatMap(settlement1 -> {
-                    list.add(settlement1.getId());
-
-                    if (street == null) {
-                        Street temp = new Street();
-                        temp.setId(1L);
-                        return Mono.just(temp);
-                    }
-                    else
-                        return streetRepository.save(street);
-                })
-                .flatMap(street1 -> {
-                    list.add(street1.getId());
-
-                    if (house == null) {
-                        House temp = new House();
-                        temp.setId(1L);
-                        return Mono.just(temp);
-                    }
-                    else
-                        return houseRepository.save(house);
-                })
-                .flatMap(house1 -> {
-                    list.add(house1.getId());
-
-                    System.out.println(list);
-                    Long[] way = new Long[list.size()];
-                    for (int i = 0; i < way.length; i++)
-                        way[i] = list.get(i);
-                    System.out.println(Arrays.toString(way));
-                    result.setWayResult(way);
-
-                    return resultRepository.save(result);
-                })
-                .flatMap(resultObj -> {
-                    List<Entrance> entrance = houseObjectFactory.createEntrance(resultObj.getId());
-
-                    for (var item : entrance) {
-                        item.setResultId(resultObj.getId());
-                        entranceRepository.save(item).subscribe();
+                        return localityRepository.save(localityTemp);
                     }
 
-                    return Mono.just(resultObj);
+                    return localityRepository.findByLocalityFiasId(localityObj.getLocalityFiasId())
+                            .switchIfEmpty(localityRepository.save(localityObj));
                 })
-                .subscribe();
+                .flatMap(locality -> {
+                    Settlement settlementObj = factory.createSettlement(locality.getId());
+
+                    if (settlementObj != null) {
+                        return settlementRepository.findBySettlementFiasId(settlementObj.getSettlementFiasId())
+                                .switchIfEmpty(settlementRepository.save(settlementObj))
+                                .flatMap(settlement -> {
+                                    Street streetObj = factory.createStreet(settlement.getId(), locality.getId());
+                                    if (streetObj == null) {
+                                        Street streetTemp = new Street();
+                                        streetTemp.setId(null);
+                                        return Mono.just(streetTemp);
+                                    }
+
+                                    log.info(streetObj.toString());
+
+                                    return streetRepository.findByStreetFiasId(streetObj.getStreetFiasId())
+                                            .switchIfEmpty(streetRepository.save(streetObj));
+                                });
+                    } else {
+                        return Mono.just(locality)
+                                .flatMap(locality1 -> {
+                                    Street streetObj = factory.createStreet(null, locality.getId());
+
+                                    if (streetObj == null) {
+                                        Street streetTemp = new Street();
+                                        streetTemp.setLocalityId(locality1.getId());
+
+                                        return streetRepository.save(streetTemp);
+                                    }
+
+                                    log.info(streetObj.toString());
+                                    return streetRepository.findByStreetFiasId(streetObj.getStreetFiasId())
+                                            .switchIfEmpty(streetRepository.save(streetObj));
+                                });
+                    }
+                })
+                .flatMap(street -> {
+                    House houseObj = factory.createHouse(street.getId());
+                    log.info(houseObj.toString());
+
+                    return houseRepository.findByHouseFiasId(houseObj.getHouseFiasId())
+                            .switchIfEmpty(houseRepository.save(houseObj));
+                })
+                .flatMapMany(ignore -> {
+                    Result resultObj = factory.createResult();
+
+                    return resultRepository.findByAddress(resultObj.getAddress())
+                            .switchIfEmpty(resultRepository.save(resultObj))
+                            .flatMapMany(result -> {
+                                List<Entrance> entrance = factory.createEntrance(result.getId());
+                                List<Mono<Entrance>> monoList = new ArrayList<>();
+                                if (entrance != null) {
+                                    for (Entrance entranceObj : entrance) {
+                                        log.info(entranceObj.toString());
+                                        monoList.add(entranceRepository.save(entranceObj));
+                                    }
+                                    return Flux.merge(monoList);
+                                }
+                                else
+                                    return Mono.just(result);
+                            });
+                })
+                .then();
     }
+
+
 }

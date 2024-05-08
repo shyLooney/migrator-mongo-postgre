@@ -17,11 +17,11 @@ public abstract class HouseObjectFactory {
     }
 
     public abstract Country createCountry();
-    public abstract Region createRegion();
-    public abstract City createCity();
-    public abstract Settlement createSettlement();
-    public abstract Street createStreet();
-    public abstract House createHouse();
+    public abstract Region createRegion(Long countryId);
+    public abstract Locality createLocality(Long regionId);
+    public abstract Settlement createSettlement(Long localityId);
+    public abstract Street createStreet(Long settlementId, Long localityId);
+    public abstract House createHouse(Long streetId);
     public abstract Result createResult();
     public abstract List<Entrance> createEntrance(Long resultId);
 }

@@ -25,32 +25,34 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
     }
 
     @Override
-    public Region createRegion() {
+    public Region createRegion(Long countryId) {
 
         return new Region(
                 null,
                 UUID.fromString(data.getRegionFiasId()).toString().equals(data.getRegionFiasId()) ? UUID.fromString(data.getRegionFiasId()) : null,
                 data.getRegion(),
-                data.getTimeZone()
+                data.getTimeZone(),
+                countryId
         );
     }
 
     @Override
-    public City createCity() {
+    public Locality createLocality(Long regionId) {
         if (data.getCityFiasId() == null)
             return null;
 
-        return new City(
+        return new Locality(
                 null,
                 UUID.fromString(data.getCityFiasId()).toString().equals(data.getCityFiasId()) ? UUID.fromString(data.getCityFiasId()) : null,
                 data.getCityKladrId(),
                 data.getCityType(),
-                data.getCity()
+                data.getCity(),
+                regionId
         );
     }
 
     @Override
-    public Settlement createSettlement() {
+    public Settlement createSettlement(Long localityId) {
         if (data.getSettlementFiasId() == null)
             return null;
 
@@ -58,12 +60,13 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
                 null,
                 UUID.fromString(data.getSettlementFiasId()).toString().equals(data.getSettlementFiasId()) ? UUID.fromString(data.getSettlementFiasId()) : null,
                 data.getSettlementType(),
-                data.getSettlement()
+                data.getSettlement(),
+                localityId
         );
     }
 
     @Override
-    public Street createStreet() {
+    public Street createStreet(Long settlementId, Long localityId) {
         if (data.getStreetFiasId() == null)
             return null;
 
@@ -71,22 +74,34 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
                 null,
                 UUID.fromString(data.getStreetFiasId()).toString().equals(data.getStreetFiasId()) ? UUID.fromString(data.getStreetFiasId()) : null,
                 data.getStreetType(),
-                data.getStreet()
+                data.getStreet(),
+                settlementId,
+                localityId
         );
     }
 
     @Override
-    public House createHouse() {
-        if (data.getHouseFiasId() == null)
+    public House createHouse(Long streetId) {
+        UUID uuid;
+
+        if (data.getHouse() == null) {
             return null;
+        }
+
+        if (data.getHouseFiasId() == null || data.getHouseFiasId().length() != 36)
+            uuid = null;
+        else
+            uuid = UUID.fromString(data.getHouseFiasId()).toString().equals(data.getHouseFiasId()) ? UUID.fromString(data.getHouseFiasId()) : null;
+
 
         return new House(
                 null,
-                UUID.fromString(data.getHouseFiasId()).toString().equals(data.getHouseFiasId()) ? UUID.fromString(data.getHouseFiasId()) : null,
+                uuid,
                 data.getHouseType(),
                 data.getHouse(),
                 data.getBlockType(),
-                data.getBlock()
+                data.getBlock(),
+                streetId
         );
     }
 
@@ -115,7 +130,7 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
                     item.getNumber(),
                     item.getFrom(),
                     item.getTo(),
-                    null
+                    resultId
             ));
         }
         return entrances;

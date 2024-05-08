@@ -16,4 +16,6 @@ public class Street {
     private UUID streetFiasId;
     private String streetType;
     private String street;
+    private Long settlementId;
+    private Long localityId;
 }

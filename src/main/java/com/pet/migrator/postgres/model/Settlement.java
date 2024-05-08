@@ -16,4 +16,5 @@ public class Settlement {
     private UUID settlementFiasId;
     private String settlementType;
     private String settlement;
+    private Long localityId;
 }

@@ -16,4 +16,5 @@ public class Region {
     private UUID regionFiasId;
     private String region;
     private String timeZone;
+    private Long countryId;
 }

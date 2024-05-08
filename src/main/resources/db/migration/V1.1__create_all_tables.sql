@@ -10,16 +10,18 @@ CREATE TABLE IF NOT EXISTS region
     id             serial PRIMARY KEY,
     region_fias_id uuid,
     region         varchar(120),
-    time_zone      varchar(50)
+    time_zone      varchar(50),
+    country_id     integer NOT NULL references country (id)
 );
 
-CREATE TABLE IF NOT EXISTS city
+CREATE TABLE IF NOT EXISTS locality
 (
-    id            serial PRIMARY KEY,
-    city_fias_id  uuid,
-    city_kladr_id char(19),
-    city_type     varchar(10),
-    city          varchar(120)
+    id                serial PRIMARY KEY,
+    locality_fias_id  uuid,
+    locality_kladr_id char(19),
+    locality_type     varchar(10),
+    locality          varchar(120),
+    region_id         integer NOT NULL references region (id)
 );
 
 CREATE TABLE IF NOT EXISTS settlement
@@ -27,7 +29,8 @@ CREATE TABLE IF NOT EXISTS settlement
     id                 serial PRIMARY KEY,
     settlement_fias_id uuid,
     settlement_type    varchar(10),
-    settlement         varchar(120)
+    settlement         varchar(120),
+    locality_id        integer NOT NULL references locality (id)
 );
 
 CREATE TABLE IF NOT EXISTS street
@@ -35,7 +38,9 @@ CREATE TABLE IF NOT EXISTS street
     id             serial PRIMARY KEY,
     street_fias_id uuid,
     street_type    varchar(10),
-    street         varchar(120)
+    street         varchar(120),
+    settlement_id  integer references settlement (id),
+    locality_id    integer references locality (id)
 );
 
 CREATE TABLE IF NOT EXISTS house
@@ -45,7 +50,9 @@ CREATE TABLE IF NOT EXISTS house
     house_type    varchar(10),
     house         varchar(50),
     block_type    varchar(10),
-    block         varchar(50)
+    block         varchar(50),
+    street_id     integer references street (id)
+
 );
 
 CREATE TABLE IF NOT EXISTS result
@@ -65,10 +72,3 @@ CREATE TABLE IF NOT EXISTS entrance
     to_en     integer,
     result_id integer
 );
-
-INSERT INTO country (country, country_iso_code) VALUES (null, null);
-INSERT INTO region (region_fias_id, region, time_zone) VALUES (null, null, null);
-INSERT INTO city (city_fias_id, city_kladr_id, city_type, city) VALUES (null, null, null, null);
-INSERT INTO settlement (settlement_fias_id, settlement_type, settlement) VALUES (null, null, null);
-INSERT INTO street (street_fias_id, street_type, street) VALUES (null, null, null);
-INSERT INTO house (house_fias_id, house_type, house, block_type, block) VALUES (null, null, null, null, null);

@@ -10,11 +10,12 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class City {
+public class Locality {
     @Id
     private Long id;
-    private UUID cityFiasId;
-    private String cityKladrId;
-    private String cityType;
-    private String city;
+    private UUID localityFiasId;
+    private String localityKladrId;
+    private String localityType;
+    private String locality;
+    private Long regionId;
 }

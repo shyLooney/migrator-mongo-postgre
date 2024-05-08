@@ -19,6 +19,7 @@ services:
       - "27017:27017"
   mongo-express:
     image: mongo-express
+    container_name: migrator_mge
     ports:
       - "8081:8081"
     environment:

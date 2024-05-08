@@ -18,4 +18,5 @@ public class House {
     private String house;
     private String blockType;
     private String block;
+    private Long streetId;
 }

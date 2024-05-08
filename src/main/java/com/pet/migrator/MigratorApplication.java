@@ -3,6 +3,7 @@ package com.pet.migrator;
 import com.pet.migrator.mongo.house.model.HouseDoc;
 import com.pet.migrator.mongo.house.repository.HouseRepositoryMongo;
 import com.pet.migrator.postgres.dto.HouseDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,14 +13,22 @@ import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 @EnableR2dbcRepositories
+@Slf4j
 public class MigratorApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(HouseDTO houseDTO, HouseRepositoryMongo houseRepositoryMongo) {
 		return args -> {
-			HouseDoc docMono = houseRepositoryMongo.findAll().blockFirst();
-			System.out.println(docMono);
-			houseDTO.save(docMono);
+			houseRepositoryMongo.findAll()
+					.subscribe(houseDoc -> {
+						log.info(houseDoc.toString());
+						houseDTO.save(houseDoc).subscribe();
+                        try {
+                            Thread.currentThread().sleep(200);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
 		};
 	}
 
