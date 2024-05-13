@@ -1,5 +1,6 @@
 package com.pet.migrator;
 
+import com.pet.migrator.dadata.utils.DadataConnector;
 import com.pet.migrator.mongo.house.model.HouseDoc;
 import com.pet.migrator.mongo.house.repository.HouseRepositoryMongo;
 import com.pet.migrator.postgres.dto.HouseDTO;
@@ -16,6 +17,14 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class MigratorApplication {
 
+//	@Bean
+//	public CommandLineRunner commandLineRunner(HouseDTO houseDTO, HouseRepositoryMongo houseRepositoryMongo) {
+//		return args -> {
+//			DadataConnector.getDataByFiasId("9120b43f-2fae-4838-a144-85e43c2bfb29")
+//							.subscribe(item -> log.info(item.toString()));
+//			log.info(DadataConnector.getDataByAddress("Респ Дагестан, Магарамкентский р-н, село Бильбиль-Казмаляр, ул Родниковая, д 115 к 1")[0].toString());
+//		};
+//	}
 	@Bean
 	public CommandLineRunner commandLineRunner(HouseDTO houseDTO, HouseRepositoryMongo houseRepositoryMongo) {
 		return args -> {

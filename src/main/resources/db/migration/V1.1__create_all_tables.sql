@@ -59,7 +59,6 @@ CREATE TABLE IF NOT EXISTS result
 (
     id             serial PRIMARY KEY,
     fias_level     integer,
-    way_result     integer[],
     porches_number integer,
     address        varchar(120)
 );

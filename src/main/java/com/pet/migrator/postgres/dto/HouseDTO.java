@@ -31,7 +31,7 @@ public class HouseDTO {
 
     @Transactional
     public Mono<Void> save(HouseDoc houseDoc) {
-        HouseObjectFactory factory = new DefaultHouseObjectFactory(houseDoc);
+        HouseObjectFactory factory = new DadataAdditionProxy(houseDoc);
 
         Country countryObj = factory.createCountry();
         log.info(houseDoc.toString());
@@ -111,20 +111,21 @@ public class HouseDTO {
                     Result resultObj = factory.createResult();
 
                     return resultRepository.findByAddress(resultObj.getAddress())
-                            .switchIfEmpty(resultRepository.save(resultObj))
-                            .flatMapMany(result -> {
-                                List<Entrance> entrance = factory.createEntrance(result.getId());
-                                List<Mono<Entrance>> monoList = new ArrayList<>();
-                                if (entrance != null) {
-                                    for (Entrance entranceObj : entrance) {
-                                        log.info(entranceObj.toString());
-                                        monoList.add(entranceRepository.save(entranceObj));
-                                    }
-                                    return Flux.merge(monoList);
-                                }
-                                else
-                                    return Mono.just(result);
-                            });
+                            .switchIfEmpty(resultRepository.save(resultObj));
+                    // save entrance:
+//                            .flatMapMany(result -> {
+//                                List<Entrance> entrance = factory.createEntrance(result.getId());
+//                                List<Mono<Entrance>> monoList = new ArrayList<>();
+//                                if (entrance != null) {
+//                                    for (Entrance entranceObj : entrance) {
+//                                        log.info(entranceObj.toString());
+//                                        monoList.add(entranceRepository.save(entranceObj));
+//                                    }
+//                                    return Flux.merge(monoList);
+//                                }
+//                                else
+//                                    return Mono.just(result);
+//                            });
                 })
                 .then();
     }
