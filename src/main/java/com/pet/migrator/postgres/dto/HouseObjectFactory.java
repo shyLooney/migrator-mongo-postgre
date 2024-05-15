@@ -6,6 +6,7 @@ import com.pet.migrator.mongo.house.model.HouseDoc;
 import com.pet.migrator.postgres.model.*;
 
 import java.util.List;
+import java.util.UUID;
 
 public abstract class HouseObjectFactory {
     protected HouseDoc houseDoc;
@@ -16,12 +17,19 @@ public abstract class HouseObjectFactory {
         data = houseDoc.getData();
     }
 
+
     public abstract Country createCountry();
-    public abstract Region createRegion(Long countryId);
-    public abstract Locality createLocality(Long regionId);
-    public abstract Settlement createSettlement(Long localityId);
-    public abstract Street createStreet(Long settlementId, Long localityId);
-    public abstract House createHouse(Long streetId);
+    public abstract Region createRegion(Country countryId);
+    public abstract Locality createLocality(Region regionId);
+    public abstract Settlement createSettlement(Locality localityId);
+    public abstract Street createStreet(Settlement settlementId, Locality localityId);
+    public abstract House createHouse(Street streetId);
     public abstract Result createResult();
-    public abstract List<Entrance> createEntrance(Long resultId);
+    public abstract List<Entrance> createEntrance(Result resultId);
+
+    protected UUID checkUUID(String uuid) {
+        if (uuid == null)
+            return null;
+        return UUID.fromString(uuid).toString().equals(uuid) ? UUID.fromString(uuid) : null;
+    }
 }

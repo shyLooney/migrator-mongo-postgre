@@ -1,11 +1,10 @@
 package com.pet.migrator.postgres.repository;
 
 import com.pet.migrator.postgres.model.Street;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
-import reactor.core.publisher.Mono;
-
+import org.springframework.data.repository.CrudRepository;
 import java.util.UUID;
 
-public interface StreetRepository extends R2dbcRepository<Street, Long> {
-    Mono<Street> findByStreetFiasId(UUID streetFiasId);
+public interface StreetRepository extends CrudRepository<Street, Long> {
+    Street findByStreetFiasId(UUID streetFiasId);
+    Boolean existsByStreetFiasId(UUID streetFiasId);
 }

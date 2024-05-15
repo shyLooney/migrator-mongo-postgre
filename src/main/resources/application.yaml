@@ -1,16 +1,19 @@
 spring:
   application:
     name: migrator
-  r2dbc:
+  datasource:
     username: admin
     password: admin
-    url: r2dbc:postgresql://172.17.0.1:5432/postgre_db
+    url: jdbc:postgresql://172.17.0.1:5432/postgre_db
   data:
     mongodb:
 #      database: smart_resident
 #      uri: mongodb://10.35.38.3:27017
-      uri: mongodb://admin:password@172.17.0.1:27017/demo?authSource=admin
+#      uri: mongodb://admin:password@172.17.0.1:27017/demo?authSource=admin
+      uri: mongodb://172.17.0.1:27017/demo
       database: demo
+      username: admin
+      password: password
     r2dbc:
       repositories:
         enabled: true

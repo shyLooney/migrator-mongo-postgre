@@ -34,12 +34,12 @@ public class DadataAdditionProxy extends HouseObjectFactory {
     }
 
     @Override
-    public Region createRegion(Long countryId) {
+    public Region createRegion(Country countryId) {
         return factory.createRegion(countryId);
     }
 
     @Override
-    public Locality createLocality(Long regionId) {
+    public Locality createLocality(Region regionId) {
         Locality locality = factory.createLocality(regionId);
 
         if (dadata != null) {
@@ -60,10 +60,12 @@ public class DadataAdditionProxy extends HouseObjectFactory {
     }
 
     @Override
-    public Settlement createSettlement(Long localityId) {
+    public Settlement createSettlement(Locality localityId) {
         Settlement settlement = factory.createSettlement(localityId);
 
-        if (dadata != null) {
+        if (dadata != null && dadata.getSettlementFiasId() != null) {
+            settlement = new Settlement();
+            settlement.setLocality(localityId);
             settlement.setSettlement(dadata.getSettlement());
             settlement.setSettlementType(dadata.getSettlementType());
             settlement.setSettlementFiasId(checkUUID(dadata.getSettlementFiasId()));
@@ -73,7 +75,7 @@ public class DadataAdditionProxy extends HouseObjectFactory {
     }
 
     @Override
-    public Street createStreet(Long settlementId, Long localityId) {
+    public Street createStreet(Settlement settlementId, Locality localityId) {
         Street street = factory.createStreet(settlementId, localityId);
 
         if (dadata != null) {
@@ -86,7 +88,7 @@ public class DadataAdditionProxy extends HouseObjectFactory {
     }
 
     @Override
-    public House createHouse(Long streetId) {
+    public House createHouse(Street streetId) {
         House house = factory.createHouse(streetId);
 
         if (dadata != null) {
@@ -112,11 +114,7 @@ public class DadataAdditionProxy extends HouseObjectFactory {
     }
 
     @Override
-    public List<Entrance> createEntrance(Long resultId) {
+    public List<Entrance> createEntrance(Result resultId) {
         return factory.createEntrance(resultId);
-    }
-
-    private UUID checkUUID(String uuid) {
-        return UUID.fromString(uuid).toString().equals(uuid) ? UUID.fromString(uuid) : null;
     }
 }

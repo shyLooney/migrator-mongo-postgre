@@ -1,7 +1,7 @@
 package com.pet.migrator.postgres.repository;
 
 import com.pet.migrator.postgres.model.Entrance;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface EntranceRepository extends R2dbcRepository<Entrance, Long> {
+public interface EntranceRepository extends CrudRepository<Entrance, Long> {
 }

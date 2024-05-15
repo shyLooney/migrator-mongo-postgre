@@ -1,11 +1,12 @@
 package com.pet.migrator.postgres.repository;
 
 import com.pet.migrator.postgres.model.House;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
-import reactor.core.publisher.Mono;
-
+import org.springframework.data.repository.CrudRepository;
 import java.util.UUID;
 
-public interface HouseRepository extends R2dbcRepository<House, Long> {
-    Mono<House> findByHouseFiasId(UUID houseFiasId);
+
+
+public interface HouseRepository extends CrudRepository<House, Long> {
+    House findByHouseFiasId(UUID houseFiasId);
+    Boolean existsByHouseFiasId(UUID houseFiasId);
 }

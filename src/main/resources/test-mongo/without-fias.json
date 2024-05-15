@@ -1,0 +1,25 @@
+{
+  "_id": {
+    "$oid": "5e9eda961addb35762177079"
+  },
+  "data": {
+    "country": "Россия",
+    "countryIsoCode": "RU",
+    "region": "Алтай",
+    "regionFiasId": "5c48611f-5de6-4771-9695-7e36a4e7529d",
+    "houseType": "д",
+    "house": "16",
+    "blockType": "стр",
+    "block": "16",
+    "timeZone": "UTC+7"
+  },
+  "address": "респ. Алтай, р-н. Шебалинский, с. Шебалино, д. 16 стр. 16",
+  "createdAt": {
+    "$date": "2020-04-21T11:35:50.448Z"
+  },
+  "updateAt": {
+    "$date": "2020-04-21T11:35:50.448Z"
+  },
+  "timeZone": "Europe/Moscow",
+  "_class": "com.ub.smartresident.core.house.model.HouseDoc"
+}

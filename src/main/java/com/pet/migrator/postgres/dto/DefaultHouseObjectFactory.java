@@ -25,11 +25,11 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
     }
 
     @Override
-    public Region createRegion(Long countryId) {
+    public Region createRegion(Country countryId) {
 
         return new Region(
                 null,
-                UUID.fromString(data.getRegionFiasId()).toString().equals(data.getRegionFiasId()) ? UUID.fromString(data.getRegionFiasId()) : null,
+                checkUUID(data.getRegionFiasId()),
                 data.getRegion(),
                 data.getTimeZone(),
                 countryId
@@ -37,13 +37,16 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
     }
 
     @Override
-    public Locality createLocality(Long regionId) {
-        if (data.getCityFiasId() == null)
-            return null;
+    public Locality createLocality(Region regionId) {
+//        if (data.getCityFiasId() == null) {
+//            Locality locality = new Locality();
+//            locality.setRegion(regionId);
+//            return locality;
+//        }
 
         return new Locality(
                 null,
-                UUID.fromString(data.getCityFiasId()).toString().equals(data.getCityFiasId()) ? UUID.fromString(data.getCityFiasId()) : null,
+                checkUUID(data.getCityFiasId()),
                 data.getCityKladrId(),
                 data.getCityType(),
                 data.getCity(),
@@ -52,13 +55,14 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
     }
 
     @Override
-    public Settlement createSettlement(Long localityId) {
-        if (data.getSettlementFiasId() == null)
+    public Settlement createSettlement(Locality localityId) {
+        if (data.getSettlementFiasId() == null) {
             return null;
+        }
 
         return new Settlement(
                 null,
-                UUID.fromString(data.getSettlementFiasId()).toString().equals(data.getSettlementFiasId()) ? UUID.fromString(data.getSettlementFiasId()) : null,
+                checkUUID(data.getSettlementFiasId()),
                 data.getSettlementType(),
                 data.getSettlement(),
                 localityId
@@ -66,13 +70,17 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
     }
 
     @Override
-    public Street createStreet(Long settlementId, Long localityId) {
-        if (data.getStreetFiasId() == null)
-            return null;
+    public Street createStreet(Settlement settlementId, Locality localityId) {
+//        if (data.getStreetFiasId() == null) {
+//            Street street = new Street();
+//            street.setSettlement(settlementId);
+//            street.setLocality(localityId);
+//            return street;
+//        }
 
         return new Street(
                 null,
-                UUID.fromString(data.getStreetFiasId()).toString().equals(data.getStreetFiasId()) ? UUID.fromString(data.getStreetFiasId()) : null,
+                checkUUID(data.getStreetFiasId()),
                 data.getStreetType(),
                 data.getStreet(),
                 settlementId,
@@ -81,12 +89,14 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
     }
 
     @Override
-    public House createHouse(Long streetId) {
+    public House createHouse(Street streetId) {
         UUID uuid;
 
-        if (data.getHouse() == null) {
-            return null;
-        }
+//        if (data.getHouse() == null) {
+//            House house = new House();
+//            house.setStreet(streetId);
+//            return house;
+//        }
 
         if (data.getHouseFiasId() == null || data.getHouseFiasId().length() != 36)
             uuid = null;
@@ -111,13 +121,12 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
                 null,
                 data.getFiasLevel() == null ? null : Integer.parseInt(data.getFiasLevel()),
                 null,
-                null,
                 houseDoc.getAddress()
         );
     }
 
     @Override
-    public List<Entrance> createEntrance(Long resultId) {
+    public List<Entrance> createEntrance(Result resultId) {
         List<Entrance> entrances = new ArrayList<>();
 
         if (houseDoc.getStructure() == null || houseDoc.getStructure().getEntrances() == null) {
@@ -135,6 +144,4 @@ public class DefaultHouseObjectFactory extends HouseObjectFactory {
         }
         return entrances;
     }
-
-
 }

@@ -1,0 +1,35 @@
+{
+  "_id": {
+    "$oid": "641c29722b3af215c9ba7cd7"
+  },
+  "companyId": {
+    "$oid": "5ec3d679400fd607861e1bbc"
+  },
+  "data": {
+    "country": "Россия",
+    "countryIsoCode": "RU",
+    "region": "Кемеровская область - Кузбасс",
+    "regionFiasId": "393aeccb-89ef-4a7e-ae42-08d5cebc2e30",
+    "cityType": "г",
+    "city": "Ленинск-Кузнецкий",
+    "cityFiasId": "cf600ae8-e376-42ae-bf7c-5aa1875dcd28",
+    "streetType": "пр-кт",
+    "street": "Дзержинского",
+    "streetFiasId": "414f1587-a044-4394-b848-0c2183426420",
+    "houseType": "да",
+    "house": "3",
+    "houseFiasId": "414f1587-a044-4394-b848-0c2183426420 д3а",
+    "fiasLevel": "7",
+    "cityKladrId": "4200001000000",
+    "timeZone": "UTC+07:00"
+  },
+  "address": "Кемеровская область - Кузбасс, г Ленинск-Кузнецкий, пр-кт Дзержинского д3а",
+  "createdAt": {
+    "$date": "2023-03-23T10:26:58.385Z"
+  },
+  "updateAt": {
+    "$date": "2023-03-23T10:26:58.385Z"
+  },
+  "timeZone": "Europe/Moscow",
+  "_class": "com.ub.smartresident.core.house.model.HouseDoc"
+}

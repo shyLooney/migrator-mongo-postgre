@@ -1,8 +1,6 @@
 package com.pet.migrator.mongo.house.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.List;
@@ -11,6 +9,8 @@ import java.util.List;
 @Setter
 @Data
 @Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Structure {
     private List<Entrance> entrances;
 }

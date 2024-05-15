@@ -1,0 +1,27 @@
+{
+  "_id": {
+    "$oid": "5e9eda841addb35762176fe3"
+  },
+  "companyId": {
+    "$oid": "5db2fc20d1830100011e9b93"
+  },
+  "data": {
+    "country": "Россия",
+    "countryIsoCode": "RU",
+    "region": "Тверская",
+    "regionFiasId": "61723327-1c20-42fe-8dfa-402638d9b396",
+    "houseType": "д",
+    "house": "15",
+    "houseFiasId": "ce3baaa6-a4c8-47a5-a854-97a235da417f",
+    "timeZone": "UTC+3"
+  },
+  "address": "обл. Тверская, р-н. Пеновский, д. Москва, д. 15 ",
+  "createdAt": {
+    "$date": "2020-04-21T11:35:32.083Z"
+  },
+  "updateAt": {
+    "$date": "2020-04-21T11:35:32.083Z"
+  },
+  "timeZone": "Europe/Moscow",
+  "_class": "com.ub.smartresident.core.house.model.HouseDoc"
+}

@@ -1,8 +1,13 @@
 package com.pet.migrator.mongo.house.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 @lombok.Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class HouseData implements Serializable {
     private String country;
     private String countryIsoCode;
@@ -25,9 +30,6 @@ public class HouseData implements Serializable {
     private String fiasLevel;
     private String cityKladrId;
     private String timeZone;
-
-    public HouseData() {
-    }
 
     public String getCountry() {
         return country;
