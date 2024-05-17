@@ -6,23 +6,23 @@
     "$oid": "5e9084c057a8b600011a08a2"
   },
   "data": {
-    "country": "Россия",
-    "countryIsoCode": "RU",
+    "country": "Кыргызия",
+    "countryIsoCode": "KG",
     "region": "Саха /Якутия/",
-    "regionFiasId": "c225d3db-1db6-4063-ace0-b3fe9ea3805f",
+    "regionFiasId": "c225d3db-ffff-ffff-ace0-b3fe9ea3805f",
     "cityType": "г",
     "city": "Якутск",
-    "cityFiasId": "884c84a2-0141-4652-962d-8a92989b88f7",
+    "cityFiasId": "884c84a2-0141-ffff-ffff-8a92989b88f7",
     "settlementType": "мкр",
     "settlement": "202-й",
-    "settlementFiasId": "62f9efc8-39ba-4585-a085-7f3edc9690b7",
+    "settlementFiasId": "62f9efc8-ffff-ffff-a085-7f3edc9690b7",
     "houseType": "д",
     "house": "21",
-    "houseFiasId": "100fffde-31f9-4797-95fe-24894698afa6",
+    "houseFiasId": "100fffde-ffff-ffff-95fe-24894698afa6",
     "cityKladrId": "1400000100000",
     "timeZone": "UTC+09:00"
   },
-  "address": "г Якутск, мкр 202-й, д 21",
+  "address": "г Фиксики, мкр 202-й, д 21",
   "createdAt": {
     "$date": "2020-11-11T11:53:20.025Z"
   },

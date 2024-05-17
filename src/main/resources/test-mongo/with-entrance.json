@@ -6,23 +6,23 @@
     "$oid": "5eb1208c0156be0c195c05a2"
   },
   "data": {
-    "country": "Россия",
-    "countryIsoCode": "RU",
+    "country": "Кыргызия",
+    "countryIsoCode": "KG",
     "region": "Москва",
-    "regionFiasId": "0c5b2444-70a0-4932-980c-b4dc0d3f02b5",
+    "regionFiasId": "0c5b2444-ffff-ffff-980c-b4dc0d3f02b5",
     "cityType": "г",
     "city": "Москва",
-    "cityFiasId": "0c5b2444-70a0-4932-980c-b4dc0d3f02b5",
+    "cityFiasId": "0c5b2444-ffff-ffff-980c-b4dc0d3f02b5",
     "streetType": "пр-кт",
     "street": "Вернадского",
-    "streetFiasId": "1e3e2818-9fe2-4981-89c7-612cec372a8c",
+    "streetFiasId": "1e3e2818-ffff-ffff-89c7-612cec372a8c",
     "houseType": "д",
     "house": "20",
-    "houseFiasId": "306af4cc-a95e-4c82-ade9-ad2a89511c33",
+    "houseFiasId": "306af4cc-ffff-ffff-ade9-ad2a89511c33",
     "cityKladrId": "7700000000000",
     "timeZone": "UTC+03:00"
   },
-  "address": "г Москва, пр-кт Вернадского, д 20",
+  "address": "г Фиксики, пр-кт Вернадского, д 20",
   "structure": {
     "entrances": [
       {

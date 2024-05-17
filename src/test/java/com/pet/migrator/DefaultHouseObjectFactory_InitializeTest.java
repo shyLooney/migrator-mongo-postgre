@@ -1,30 +1,18 @@
 package com.pet.migrator;
 
-import com.pet.migrator.mongo.house.model.Entrance;
 import com.pet.migrator.mongo.house.model.HouseData;
 import com.pet.migrator.mongo.house.model.HouseDoc;
-import com.pet.migrator.mongo.house.model.Structure;
 import com.pet.migrator.postgres.dto.DefaultHouseObjectFactory;
 import com.pet.migrator.postgres.model.*;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 
-public class DefaultHouseObjectFactoryTest implements ArgumentsProvider {
+public class DefaultHouseObjectFactory_InitializeTest {
 
-    @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
-        return Stream.empty();
-    }
 
     public static List<HouseDoc> initObject() {
         return TestDataLoader.load("src/main/resources/test-mongo");
@@ -44,32 +32,31 @@ public class DefaultHouseObjectFactoryTest implements ArgumentsProvider {
         List<com.pet.migrator.postgres.model.Entrance> entrances = factory.createEntrance(result);
 
 
-        System.out.println(settlement);
-        testInitializeCountry(country, houseDoc.getData());
-        testInitializeRegion(region, houseDoc.getData());
-        testInitializeCity(locality, houseDoc.getData());
-        testInitializeSettlement(settlement, houseDoc.getData());
-        testInitializeStreet(street, houseDoc.getData());
-        testInitializeHouse(house, houseDoc.getData());
-        testInitializeResult(result, houseDoc);
-        testInitializeEntrances(entrances, houseDoc);
+        initializeCountryTest(country, houseDoc.getData());
+        initializeRegionTest(region, houseDoc.getData());
+        initializeCityTest(locality, houseDoc.getData());
+        initializeSettlementTest(settlement, houseDoc.getData());
+        initializeStreetTest(street, houseDoc.getData());
+        initializeHouseTest(house, houseDoc.getData());
+        initializeResultTest(result, houseDoc);
+        initializeEntrancesTest(entrances, houseDoc);
     }
 
-    void testInitializeCountry(Country country, HouseData houseData) {
+    void initializeCountryTest(Country country, HouseData houseData) {
         Assertions.assertAll("Test initialize countries fields",
                 () -> Assertions.assertEquals(country.getCountry(), houseData.getCountry()),
                 () -> Assertions.assertEquals(country.getCountryIsoCode(), houseData.getCountryIsoCode())
         );
     }
 
-    void testInitializeRegion(Region region, HouseData houseData) {
+    void initializeRegionTest(Region region, HouseData houseData) {
         Assertions.assertAll("Test initialize regions fields",
                 () -> Assertions.assertEquals(region.getRegion(), houseData.getRegion()),
                 () -> Assertions.assertEquals(convertUUID(region.getRegionFiasId()), houseData.getRegionFiasId())
         );
     }
 
-    void testInitializeCity(Locality locality, HouseData houseData) {
+    void initializeCityTest(Locality locality, HouseData houseData) {
         Assertions.assertAll("Test initialize cities fields",
                 () -> Assertions.assertEquals(locality.getLocality(), houseData.getCity()),
                 () -> Assertions.assertEquals(locality.getLocalityType(), houseData.getCityType()),
@@ -78,7 +65,7 @@ public class DefaultHouseObjectFactoryTest implements ArgumentsProvider {
         );
     }
 
-    void testInitializeSettlement(Settlement settlement, HouseData houseData) {
+    void initializeSettlementTest(Settlement settlement, HouseData houseData) {
         if (settlement == null) {
             Assertions.assertNull(houseData.getSettlement());
             Assertions.assertNull(houseData.getSettlementType());
@@ -92,7 +79,7 @@ public class DefaultHouseObjectFactoryTest implements ArgumentsProvider {
         }
     }
 
-    void testInitializeStreet(Street street, HouseData houseData) {
+    void initializeStreetTest(Street street, HouseData houseData) {
         Assertions.assertAll("Test initialize streets fields",
                 () -> Assertions.assertEquals(street.getStreet(), houseData.getStreet()),
                 () -> Assertions.assertEquals(convertUUID(street.getStreetFiasId()), houseData.getStreetFiasId()),
@@ -100,7 +87,7 @@ public class DefaultHouseObjectFactoryTest implements ArgumentsProvider {
         );
     }
 
-    void testInitializeHouse(House house, HouseData houseData) {
+    void initializeHouseTest(House house, HouseData houseData) {
         Assertions.assertAll("Test initialize houses fields",
                 () -> Assertions.assertEquals(house.getHouse(), houseData.getHouse()),
                 () -> Assertions.assertEquals(convertUUID(house.getHouseFiasId()), isUUID(houseData.getHouseFiasId())),
@@ -110,12 +97,12 @@ public class DefaultHouseObjectFactoryTest implements ArgumentsProvider {
         );
     }
 
-    void testInitializeResult(Result result, HouseDoc houseDoc) {
+    void initializeResultTest(Result result, HouseDoc houseDoc) {
         Assertions.assertAll("Test initialize results fields",
                 () -> Assertions.assertEquals(result.getAddress(), houseDoc.getAddress()));
     }
 
-    void testInitializeEntrances(List<com.pet.migrator.postgres.model.Entrance> entrance, HouseDoc houseDoc) {
+    void initializeEntrancesTest(List<com.pet.migrator.postgres.model.Entrance> entrance, HouseDoc houseDoc) {
         if (houseDoc.getStructure() == null || houseDoc.getStructure().getEntrances() == null) {
             Assertions.assertEquals(0, entrance.size());
         } else {

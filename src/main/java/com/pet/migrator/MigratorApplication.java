@@ -36,26 +36,7 @@ public class MigratorApplication {
 //		};
 //	}
 
-	@Bean
-	public CommandLineRunner changeStreamTest(MongoTemplate template, HouseDTO houseDTO) {
-		return args -> {
-			MessageListenerContainer container = new DefaultMessageListenerContainer(template);
-			container.start();
 
-			MessageListener<ChangeStreamDocument<Document>, HouseDoc> listener = item -> {
-				System.out.println(item.getBody());
-				System.out.println(item.getBodyBeforeChange());
-				System.out.println(item.getProperties());
-				houseDTO.save(item.getBody());
-			};
-			ChangeStreamRequest.ChangeStreamRequestOptions options = new ChangeStreamRequest.ChangeStreamRequestOptions("demo", "houseDoc", ChangeStreamOptions.empty());
-
-			Subscription subscription = container.register(new ChangeStreamRequest<>(listener, options), HouseDoc.class);
-
-
-			container.stop();
-		};
-	}
 
 //	@Bean
 //	public CommandLineRunner input(HouseRepositoryMongo repository) {

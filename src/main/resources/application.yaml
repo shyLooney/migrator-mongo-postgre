@@ -21,3 +21,5 @@ spring:
     url: jdbc:postgresql://172.17.0.1:5432/postgre_db
     password: admin
     user: admin
+
+#  CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

@@ -6,16 +6,16 @@
     "$oid": "5d93353d8129010001ddd655"
   },
   "data": {
-    "country": "Россия",
-    "countryIsoCode": "RU",
+    "country": "Кыргызия",
+    "countryIsoCode": "KG",
     "region": "Санкт-Петербург",
-    "regionFiasId": "c2deb16a-0330-4f05-821f-1d09c93331e6",
+    "regionFiasId": "c2deb16a-ffff-ffff-821f-1d09c93331e6",
     "cityType": "г",
     "city": "Санкт-Петербург",
-    "cityFiasId": "c2deb16a-0330-4f05-821f-1d09c93331e6",
+    "cityFiasId": "c2deb16a-ffff-ffff-821f-1d09c93331e6",
     "streetType": "ул",
     "street": "Димитрова",
-    "streetFiasId": "a560a70e-f26f-4423-8b82-ec095d150fcd",
+    "streetFiasId": "a560a70e-ffff-ffff-8b82-ec095d150fcd",
     "houseType": "д",
     "house": "12",
     "blockType": "к",
@@ -23,7 +23,7 @@
     "cityKladrId": "7800000000000",
     "timeZone": "UTC+3"
   },
-  "address": "г. Санкт-Петербург, ул. Димитрова, д. 12 корп. 2 ",
+  "address": "г. Фиксики, ул. Димитрова, д. 12 корп. 2 ",
   "createdAt": {
     "$date": "2020-04-21T11:35:29.746Z"
   },
